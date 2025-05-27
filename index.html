@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Multi Tool Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Theme Colors */
+    :root {
+      --bg-color: #82959a;
+      --text-color: #111827;
+      --header-bg: #ffffff;
+      --accent-color: #3b82f6;
+      --card-bg: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 2rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+      background-color: var(--header-bg);
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: var(--text-color);
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .search-container input {
+      width: 80%;
+      max-width: 500px;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .tool-card {
+      background-color: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px var(--shadow);
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .tool-card h2 {
+      margin-bottom: 0.5rem;
+      font-size: 1.25rem;
+    }
+
+    .tool-card p {
+      margin-bottom: 1rem;
+      color: #4b5563;
+    }
+
+    .tool-card button {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .tool-card button:hover {
+      background-color: #2563eb;
+    }
+
+    @media (max-width: 768px) {
+      .tool-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .search-container input {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Multi Tool Hub</h1>
+  </header>
+
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search for tools..." />
+  </div>
+
+  <div class="tool-grid" id="toolGrid">
+    <!-- Tool Cards will be inserted here via JS -->
+  </div>
+
+  <script>
+    const tools = [
+      { name: "Image Converter", desc: "Convert images between formats like PNG, JPEG, WEBP." },
+      { name: "Image Compressor", desc: "Compress image size without losing quality." },
+      { name: "Image Crop", desc: "Crop images to your desired dimensions." },
+      { name: "Video Converter", desc: "Convert video files to different formats." },
+      { name: "Age Calculator", desc: "Calculate your age based on birthdate." },
+      { name: "EMI Calculator", desc: "Calculate monthly installment payments." },
+      { name: "SIP Calculator", desc: "Estimate returns on systematic investment plans." },
+      { name: "Audio Trim Tool", desc: "Trim audio files easily." },
+      { name: "QR Code Generator", desc: "Generate QR codes from text or URLs." },
+      { name: "Text to Speech", desc: "Convert written text into spoken audio." },
+      { name: "Password Generator", desc: "Generate strong, secure passwords." },
+      { name: "File Merger", desc: "Merge PDFs, videos, or other files into one." },
+      { name: "Unit Converter", desc: "Convert units like kg to lbs, km to miles, etc." },
+      { name: "Code Minifier", desc: "Minify HTML, CSS, and JavaScript files." },
+      { name: "URL Shortener", desc: "Shorten long URLs for easy sharing." },
+      { name: "CSV to JSON Converter", desc: "Convert CSV data to JSON format." },
+      { name: "JSON to CSV Converter", desc: "Convert JSON data to CSV format." },
+      { name: "Base64 Encoder/Decoder", desc: "Encode or decode base64 strings." },
+      { name: "Markdown Previewer", desc: "Preview markdown formatted text." },
+      { name: "Text Case Converter", desc: "Change text case: uppercase, lowercase, etc." },
+      { name: "Currency Converter", desc: "Convert currencies with live rates." },
+      { name: "Timestamp Converter", desc: "Convert timestamps to readable dates." },
+      { name: "Color Picker", desc: "Select and convert colors easily." },
+      { name: "Word Counter", desc: "Count words, characters, and lines in text." },
+      { name: "PDF Viewer", desc: "View PDF documents online." },
+      { name: "File Renamer", desc: "Rename multiple files quickly." },
+      { name: "Image Resizer", desc: "Resize images to custom dimensions." },
+      { name: "Audio Converter", desc: "Convert audio files between formats." },
+      { name: "Video Cutter", desc: "Trim videos to desired length." },
+      { name: "Watermark Remover", desc: "Remove watermarks from images." },
+      { name: "Invoice Generator", desc: "Create professional invoices online." },
+      { name: "Form Builder", desc: "Build forms without coding." },
+      { name: "Barcode Generator", desc: "Generate barcode images." },
+      { name: "Calendar Generator", desc: "Generate printable calendars." },
+      { name: "Regex Tester", desc: "Test regular expressions instantly." },
+      { name: "CSS Beautifier", desc: "Format minified CSS code." },
+      { name: "JavaScript Beautifier", desc: "Format minified JavaScript code." },
+      { name: "HTML Beautifier", desc: "Format minified HTML code." },
+      { name: "Online Compiler", desc: "Compile and run code snippets online." },
+      { name: "Text Diff Tool", desc: "Compare two texts side-by-side." },
+      { name: "Time Zone Converter", desc: "Convert time between time zones." },
+      { name: "Stock Price Checker", desc: "Check real-time stock prices." },
+      { name: "Loan Calculator", desc: "Calculate loan interest and repayments." },
+      { name: "BMI Calculator", desc: "Calculate Body Mass Index." },
+      { name: "Weather Checker", desc: "Get current weather info by location." },
+      { name: "Website Uptime Checker", desc: "Check if a website is online." },
+      { name: "Spell Checker", desc: "Check spelling in any text." },
+      { name: "Grammar Checker", desc: "Improve grammar and writing style." },
+      { name: "Plagiarism Checker", desc: "Check text similarity against web sources." }
+    ];
+
+    function createToolCard(tool) {
+      const card = document.createElement("div");
+      card.className = "tool-card";
+      card.innerHTML = `
+        <h2>${tool.name}</h2>
+        <p>${tool.desc}</p>
+        <button onclick="alert('Redirecting to ${tool.name}')">Open Tool</button>
+      `;
+      return card;
+    }
+
+    function renderTools(filter = "") {
+      const container = document.getElementById("toolGrid");
+      container.innerHTML = "";
+      const filteredTools = tools.filter(t => t.name.toLowerCase().includes(filter.toLowerCase()));
+      filteredTools.forEach(tool => {
+        container.appendChild(createToolCard(tool));
+      });
+    }
+
+    // Initial load
+    renderTools();
+
+    // Add search functionality
+    document.getElementById("searchInput").addEventListener("input", function () {
+      renderTools(this.value);
+    });
+  </script>
+
+</body>
+</html>
